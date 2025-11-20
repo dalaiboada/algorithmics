@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'Algorithmics' %></title>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/algorithmics-logo.jpg">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/algorithmics-logo.jpg">
+
+    <meta name="theme-color" content="#a07bfd">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Preload de fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Meta etiquetas para SEO -->
+    <meta name="description" content="Inicia sesión en Algorithmics para acceder a tus cursos y recursos educativos.">
+    <meta name="keywords" content="algorithmics, programación, educación, tecnología, cursos, aprendizaje">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= typeof url !== 'undefined' ? url : 'https://algorithmics.com' %>">
+    <meta property="og:title" content="<%= typeof title !== 'undefined' ? title : 'Iniciar Sesión - Algorithmics' %>">
+    <meta property="og:description" content="Inicia sesión en Algorithmics para acceder a tus cursos y recursos educativos.">
+    <meta property="og:image" content="/assets/algorithmics-og.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="<%= typeof url !== 'undefined' ? url : 'https://algorithmics.com' %>">
+    <meta property="twitter:title" content="<%= typeof title !== 'undefined' ? title : 'Iniciar Sesión - Algorithmics' %>">
+    <meta property="twitter:description" content="Inicia sesión en Algorithmics para acceder a tus cursos y recursos educativos.">
+    <meta property="twitter:image" content="/assets/algorithmics-og.jpg">

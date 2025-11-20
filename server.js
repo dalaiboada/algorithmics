@@ -1,0 +1,56 @@
+import express from "express";
+import dotenv from 'dotenv';
+import morgan from 'morgan';
+import cors from 'cors';
+import ejs from 'ejs';
+
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path'; // join es lo que usamos para unir rutas
+
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+app.listen(PORT, () => {
+  console.log('\nINICIANDO SERVIDOR');
+  console.log(`Servidor ejecutado en http://localhost:${PORT}`);
+  console.log(`Express está buscando vistas en: ${viewsPath}`);
+});
+
+// ---- CONFIGURACIÓN DE EJS ----
+app.set('view engine', 'ejs');
+const viewsPath = join(__dirname, 'src', 'views');
+app.set('views', viewsPath);
+
+// ---- MIDDLEWARES ----
+app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(express.json());
+app.use(express.static(join(__dirname, 'public'))); // Servir archivos estáticos
+app.use(express.urlencoded({ extended: true }));
+app.use(morgan('dev'));
+
+// ---- RUTAS ----
+app.get("/", (req, res) => {
+  res.sendFile(join(__dirname, 'public/index.html'));
+});
+
+// Autenticación
+app.get('/auth/docente', (req, res) => {
+  const error = req.query.error || null;
+  const success = req.query.success || null;
+  const formData = req.query.formData ? JSON.parse(decodeURIComponent(req.query.formData)) : {};
+  
+  res.render('inicio_sesion-docente', {
+    title: 'Iniciar Sesión Docente - Algorithmics',
+    error,
+    success,
+    formData
+  });
+});
+
+
+
