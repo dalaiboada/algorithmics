@@ -1,0 +1,25 @@
+@import '../main.css';
+@import '../layouts/header.css';
+@import '../layouts/footer.css';
+
+@import './slider.css';
+@import './testimonios.css';
+
+body {
+  background-color: var(--bg-primary);
+}
+
+@media (max-width: 768px){
+  .grid-2, .grid-3, .grid-4 {
+    grid-template-columns: 1fr;
+  }
+  
+  .nav-links { display: none; }
+  
+  .footer-links {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+}
