@@ -1,0 +1,445 @@
+
+    <%- include('../partials/head') %>
+    <link rel="stylesheet" href="/styles/pages/dashboards/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+         <%- include('../partials/sidebar') %>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="top-bar">
+                <div class="page-title">Dashboard Docente</div>
+                
+                <div class="user-actions">
+                    <div class="notification-icon">
+                        <i class="fas fa-bell"></i>
+                        <div class="notification-badge"></div>
+                    </div>
+                    <button class="user-avatar-logout" id="user-avatar-btn">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </button>
+
+                    <!-- Modal Cerrar Sesión -->
+                    <div class="logout-modal" id="logout-modal">
+                        <div class="logout-modal-content">
+                            <div class="logout-user-info">
+                                <div class="logout-user-avatar">
+                                    <i class="fas fa-chalkboard-teacher"></i>
+                                </div>
+                                <div class="logout-user-details">
+                                    <div class="logout-user-name">Laura Fernández</div>
+                                    <div class="logout-user-role">Docente</div>
+                                </div>
+                            </div>
+                            <div class="logout-option" id="logout-btn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Cerrar Sesión</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <!-- Panel de Dashboard -->
+                <div class="panel active" id="dashboard">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon courses">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value">4</div>
+                                <div class="stat-label">Cursos Activos</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon students">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value">186</div>
+                                <div class="stat-label">Estudiantes</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon olympics">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value">2</div>
+                                <div class="stat-label">Olimpiadas</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon rating">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value">4.8</div>
+                                <div class="stat-label">Rating Promedio</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Próximas Actividades</div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Actividad</th>
+                                            <th>Curso</th>
+                                            <th>Fecha</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Evaluación Parcial</td>
+                                            <td>Algoritmos Avanzados</td>
+                                            <td>15 Oct 2023</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Taller Práctico</td>
+                                            <td>Python Intermedio</td>
+                                            <td>18 Oct 2023</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Revisión de Proyectos</td>
+                                            <td>Estructuras de Datos</td>
+                                            <td>20 Oct 2023</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sesión de Consultas</td>
+                                            <td>Matemáticas Discretas</td>
+                                            <td>22 Oct 2023</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Calificaciones Pendientes</div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Curso</th>
+                                            <th>Tarea</th>
+                                            <th>Estudiantes</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Algoritmos Avanzados</td>
+                                            <td>Proyecto Final</td>
+                                            <td>24/42</td>
+                                            <td><span class="badge badge-warning">Pendiente</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Python Intermedio</td>
+                                            <td>Ejercicios Semana 8</td>
+                                            <td>18/35</td>
+                                            <td><span class="badge badge-warning">Pendiente</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Estructuras de Datos</td>
+                                            <td>Quiz #3</td>
+                                            <td>35/35</td>
+                                            <td><span class="badge badge-success">Completado</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Matemáticas Discretas</td>
+                                            <td>Problemas Set #5</td>
+                                            <td>12/28</td>
+                                            <td><span class="badge badge-warning">Pendiente</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Panel de Perfil -->
+                <div class="panel" id="profile">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Mi Perfil Docente</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-2">
+                                <div class="form-group">
+                                    <label class="form-label" for="name">Nombre</label>
+                                    <input type="text" id="name" class="form-input" value="Laura Fernández">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="email">Correo Electrónico</label>
+                                    <input type="email" id="email" class="form-input" value="laura.fernandez@algorithmics.com">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="phone">Teléfono</label>
+                                    <input type="text" id="phone" class="form-input" value="+1 234 567 890">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="role">Rol</label>
+                                    <input type="text" id="role" class="form-input" value="Docente" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="specialty">Especialidad</label>
+                                <input type="text" id="specialty" class="form-input" value="Algoritmos y Estructuras de Datos">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="bio">Biografía</label>
+                                <textarea id="bio" class="form-input" rows="4">Doctora en Ciencias de la Computación con especialización en algoritmos. Más de 8 años de experiencia docente en educación superior. Apasionada por la enseñanza de programación y resolución de problemas complejos.</textarea>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-primary">Guardar Cambios</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Panel de Mis Cursos -->
+                <div class="panel" id="courses">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Mis Cursos</div>
+                            <button class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i> Nuevo Curso
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-3">
+                                <div class="course-card">
+                                    <div class="course-header">
+                                        <div class="course-title">Algoritmos Avanzados</div>
+                                        <div class="badge badge-success">Activo</div>
+                                    </div>
+                                    <div class="course-body">
+                                        <p>Curso avanzado de diseño y análisis de algoritmos para estudiantes de tercer año.</p>
+                                        <div class="course-stats">
+                                            <div class="course-stat">
+                                                <div class="stat-number">42</div>
+                                                <div class="stat-label">Estudiantes</div>
+                                            </div>
+                                            <div class="course-stat">
+                                                <div class="stat-number">12</div>
+                                                <div class="stat-label">Módulos</div>
+                                            </div>
+                                            <div class="course-stat">
+                                                <div class="stat-number">85%</div>
+                                                <div class="stat-label">Completado</div>
+                                            </div>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 85%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn btn-primary btn-sm">Gestionar</button>
+                                        <button class="btn btn-secondary btn-sm">Ver Estudiantes</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="course-card">
+                                    <div class="course-header">
+                                        <div class="course-title">Python Intermedio</div>
+                                        <div class="badge badge-success">Activo</div>
+                                    </div>
+                                    <div class="course-body">
+                                        <p>Programación en Python con enfoque en aplicaciones prácticas y proyectos reales.</p>
+                                        <div class="course-stats">
+                                            <div class="course-stat">
+                                                <div class="stat-number">35</div>
+                                                <div class="stat-label">Estudiantes</div>
+                                            </div>
+                                            <div class="course-stat">
+                                                <div class="stat-number">8</div>
+                                                <div class="stat-label">Módulos</div>
+                                            </div>
+                                            <div class="course-stat">
+                                                <div class="stat-number">72%</div>
+                                                <div class="stat-label">Completado</div>
+                                            </div>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 72%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn btn-primary btn-sm">Gestionar</button>
+                                        <button class="btn btn-secondary btn-sm">Ver Estudiantes</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="course-card">
+                                    <div class="course-header">
+                                        <div class="course-title">Estructuras de Datos</div>
+                                        <div class="badge badge-success">Activo</div>
+                                    </div>
+                                    <div class="course-body">
+                                        <p>Fundamentos de estructuras de datos y su implementación en diversos lenguajes.</p>
+                                        <div class="course-stats">
+                                            <div class="course-stat">
+                                                <div class="stat-number">28</div>
+                                                <div class="stat-label">Estudiantes</div>
+                                            </div>
+                                            <div class="course-stat">
+                                                <div class="stat-number">10</div>
+                                                <div class="stat-label">Módulos</div>
+                                            </div>
+                                            <div class="course-stat">
+                                                <div class="stat-number">90%</div>
+                                                <div class="stat-label">Completado</div>
+                                            </div>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 90%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn btn-primary btn-sm">Gestionar</button>
+                                        <button class="btn btn-secondary btn-sm">Ver Estudiantes</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="course-card">
+                                    <div class="course-header">
+                                        <div class="course-title">Matemáticas Discretas</div>
+                                        <div class="badge badge-warning">En Desarrollo</div>
+                                    </div>
+                                    <div class="course-body">
+                                        <p>Matemáticas fundamentales para ciencias de la computación y programación.</p>
+                                        <div class="course-stats">
+                                            <div class="course-stat">
+                                                <div class="stat-number">0</div>
+                                                <div class="stat-label">Estudiantes</div>
+                                            </div>
+                                            <div class="course-stat">
+                                                <div class="stat-number">5</div>
+                                                <div class="stat-label">Módulos</div>
+                                            </div>
+                                            <div class="course-stat">
+                                                <div class="stat-number">30%</div>
+                                                <div class="stat-label">Completado</div>
+                                            </div>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 30%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn btn-primary btn-sm">Continuar</button>
+                                        <button class="btn btn-secondary btn-sm">Vista Previa</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Panel de Olimpiadas -->
+                <div class="panel" id="olympics">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Olimpiadas</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-2">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">Olimpiada Nacional de Programación</div>
+                                    </div>
+                                    <div class="card-body">
+                                        <p><strong>Rol:</strong> <span class="badge badge-primary">Juez Principal</span></p>
+                                        <p><strong>Estado:</strong> <span class="badge badge-success">Activa</span></p>
+                                        <p><strong>Participantes:</strong> 156 equipos</p>
+                                        <p><strong>Fecha Inicio:</strong> 15 Oct 2023</p>
+                                        <p><strong>Fecha Fin:</strong> 30 Nov 2023</p>
+                                        <p><strong>Mis Responsabilidades:</strong> Diseño de problemas, evaluación de soluciones, supervisión de rondas finales.</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn btn-primary">Gestionar Problemas</button>
+                                        <button class="btn btn-secondary">Ver Participantes</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">Olimpiada Internacional de Algoritmos</div>
+                                    </div>
+                                    <div class="card-body">
+                                        <p><strong>Rol:</strong> <span class="badge badge-info">Miembro del Comité</span></p>
+                                        <p><strong>Estado:</strong> <span class="badge badge-warning">Próximamente</span></p>
+                                        <p><strong>Participantes:</strong> 42 países</p>
+                                        <p><strong>Fecha Inicio:</strong> 01 Ene 2024</p>
+                                        <p><strong>Fecha Fin:</strong> 28 Feb 2024</p>
+                                        <p><strong>Mis Responsabilidades:</strong> Revisión de propuestas, coordinación de equipos nacionales, traducción de problemas.</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn btn-primary">Preparar Material</button>
+                                        <button class="btn btn-secondary">Ver Calendario</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card" style="margin-top: 2rem;">
+                                <div class="card-header">
+                                    <div class="card-title">Historial de Olimpiadas</div>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Olimpiada</th>
+                                                <th>Año</th>
+                                                <th>Rol</th>
+                                                <th>Resultados</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Olimpiada Regional de Programación</td>
+                                                <td>2022</td>
+                                                <td><span class="badge badge-primary">Juez</span></td>
+                                                <td><button class="btn btn-secondary btn-sm">Ver Resultados</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Competencia Nacional de Algoritmos</td>
+                                                <td>2021</td>
+                                                <td><span class="badge badge-info">Coordinadora</span></td>
+                                                <td><button class="btn btn-secondary btn-sm">Ver Resultados</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Olimpiada Juvenil de Informática</td>
+                                                <td>2020</td>
+                                                <td><span class="badge badge-primary">Juez Principal</span></td>
+                                                <td><button class="btn btn-secondary btn-sm">Ver Resultados</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-overlay"></div>
+    </div>
+
+    <script type="module" src="/scripts/ui/pages/Docente.js"></script>
+</body>
+</html>

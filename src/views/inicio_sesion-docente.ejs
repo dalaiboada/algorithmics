@@ -29,6 +29,8 @@
                     <%= success.replace(/\+/g, ' ') %>
                 </div>
             <% } %>
+
+            <div class="oculto mb-2 text-error">Error al iniciar sesión</div>
             
             <form class="login-form" action="/auth/docente" method="POST">
                 <div class="form-group">
@@ -83,5 +85,7 @@
             </form>
         </div>
     </div>
+
+    <script type="module" src="/scripts/ui/pages/Login.js"></script>
 </body>
 </html>

@@ -7,10 +7,12 @@ import ejs from 'ejs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path'; // join es lo que usamos para unir rutas
 
+import { methods as auth } from './src/controllers/autenticacion.controller.js';
+
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -27,7 +29,7 @@ const viewsPath = join(__dirname, 'src', 'views');
 app.set('views', viewsPath);
 
 // ---- MIDDLEWARES ----
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: 'http://localhost:4000' }));
 app.use(express.json());
 app.use(express.static(join(__dirname, 'public'))); // Servir archivos estáticos
 app.use(express.urlencoded({ extended: true }));
@@ -49,6 +51,24 @@ app.get('/auth/docente', (req, res) => {
     error,
     success,
     formData
+  });
+});
+
+app.post('/api/auth/docente', auth.login);
+
+// Dashboard Docente
+app.get('/dashboard/docente', (req, res) => {
+  res.render('dashboards/docente', {
+    title: 'Dashboard Docente - Algorithmics',
+    usuario: req.query.usuario || { nombre: 'Usuario Desconocido', rol_id: 'Invitado' },
+    sidebar: {
+      navItems: [
+        { href: '#', text: 'Dashboard', icon: 'fas fa-tachometer-alt', panel: 'dashboard', active: true },
+        { href: '#', text: 'Perfil', icon: 'fas fa-user-circle', panel: 'profile' },
+        { href: '#', text: 'Mis Cursos', icon: 'fas fa-book-open', panel: 'courses' },
+        { href: '#', text: 'Olimpiadas', icon: 'fas fa-trophy', panel: 'olympics' }
+      ]
+    }
   });
 });
 

@@ -1,0 +1,36 @@
+<% 
+
+// Definir valores por defecto para evitar errores si no se pasan datos
+const user = usuario || { name: 'Usuario Desconocido', role: 'Invitado', icon: 'fas fa-question-circle' };
+const navItems = sidebar.navItems || [];
+%>
+
+<div class="sidebar">
+    <div class="sidebar-header">
+        <a href="#" class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-code"></i>
+            </div>
+            <div class="logo-text">Algorithmics</div>
+        </a>
+    </div>
+    
+    <div class="user-info">
+        <div class="user-avatar">
+            <i class="<%= user.icon %>"></i> 
+        </div>
+        <div class="user-name"><%= user.nombre %></div>
+        <div class="user-role"><%= user.rol_id %></div>
+    </div>
+    
+    <div class="sidebar-nav">
+        <% navItems.forEach(item => { %>
+            <a href="<%= item.href %>" class="nav-item <%= item.active ? 'active' : '' %>" data-panel="<%= item.panel %>">
+                <div class="nav-icon">
+                    <i class="<%= item.icon %>"></i>
+                </div>
+                <div class="nav-text"><%= item.text %></div>
+            </a>
+        <% }); %>
+    </div>
+</div>

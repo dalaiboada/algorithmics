@@ -213,3 +213,5 @@
 .py-3 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
 .py-4 { padding-top: 2rem; padding-bottom: 2rem; }
 .py-5 { padding-top: 3rem; padding-bottom: 3rem; }
+
+.oculto { display: none; }
