@@ -2,12 +2,14 @@ import express from "express";
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import ejs from 'ejs';
 
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path'; // join es lo que usamos para unir rutas
 
 import { methods as auth } from './src/controllers/autenticacion.controller.js';
+import { methods as autorizacion } from './src/middlewares/autorizacion.js';
 
 dotenv.config();
 
@@ -34,14 +36,15 @@ app.use(express.json());
 app.use(express.static(join(__dirname, 'public'))); // Servir archivos estáticos
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
+app.use(cookieParser());
 
 // ---- RUTAS ----
-app.get("/", (req, res) => {
+app.get("/", autorizacion.soloPublico, (req, res) => {
   res.sendFile(join(__dirname, 'public/index.html'));
 });
 
 // Autenticación
-app.get('/auth/docente', (req, res) => {
+app.get('/auth/docente', autorizacion.soloPublico, (req, res) => {
   const error = req.query.error || null;
   const success = req.query.success || null;
   const formData = req.query.formData ? JSON.parse(decodeURIComponent(req.query.formData)) : {};
@@ -57,7 +60,7 @@ app.get('/auth/docente', (req, res) => {
 app.post('/api/auth/docente', auth.login);
 
 // Dashboard Docente
-app.get('/dashboard/docente', (req, res) => {
+app.get('/dashboard/docente', autorizacion.soloDocente, (req, res) => {
   res.render('dashboards/docente', {
     title: 'Dashboard Docente - Algorithmics',
     usuario: req.query.usuario || { nombre: 'Usuario Desconocido', rol_id: 'Invitado' },
