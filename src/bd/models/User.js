@@ -1,7 +1,7 @@
 import { connection } from '../conexion.js';
 
 export default class User {
-  constructor(id, nombre, apellido, email, clave, habilitado, rol_id) {
+  constructor(id, nombre, apellido, email, clave, habilitado, rol_id, nombre_rol) {
     this.id = id;
     this.nombre = nombre;
     this.apellido = apellido;
@@ -9,6 +9,7 @@ export default class User {
     this.clave = clave;
     this.habilitado = habilitado;
     this.rol_id = rol_id;
+    this.rol_nombre = nombre_rol;
   }
 
   get nombreCompleto() {
@@ -34,7 +35,7 @@ export default class User {
   // Método estático para obtener todos los usuarios
   static async obtenerTodos() {
     try {
-      const query = 'SELECT * FROM usuarios ORDER BY usuario_id';
+      const query = 'SELECT * FROM vista_usuarios_con_rol ORDER BY usuario_id';
       const [rows] = await connection.execute(query);
       return rows.map(row => new User(
         row.usuario_id,
@@ -43,7 +44,8 @@ export default class User {
         row.email,
         row.clave,
         row.habilitado,
-        row.rol_id
+        row.rol_id,
+        row.rol_nombre
       ));
     } catch (error) {
       throw new Error(`Error al obtener usuarios: ${error.message}`);
@@ -53,7 +55,7 @@ export default class User {
   // Método estático para obtener usuario por ID
   static async obtenerPorId(id) {
     try {
-      const query = 'SELECT * FROM usuarios WHERE usuario_id = ?';
+      const query = 'SELECT * FROM vista_usuarios_con_rol WHERE usuario_id = ?';
       const [rows] = await connection.execute(query, [id]);
       if (rows.length === 0) {
         return null;
@@ -66,17 +68,18 @@ export default class User {
         row.email,
         row.clave,
         row.habilitado,
-        row.rol_id
+        row.rol_id,
+        row.nombre_rol
       );
     } catch (error) {
-      throw new Error(`Error al obtener usuario: ${error.message}`);
+      throw new Error(`Error(user.obtenerPorId) al obtener usuario: ${error.message}`);
     }
   }
 
   // Método estático para obtener usuario por email
   static async obtenerPorEmail(email) {
     try {
-      const query = 'SELECT * FROM usuarios WHERE email = ?';
+      const query = 'SELECT * FROM vista_usuarios_con_rol WHERE email = ?';
       const [rows] = await connection.execute(query, [email]);
       if (rows.length === 0) {
         return null;
@@ -89,7 +92,8 @@ export default class User {
         row.email,
         row.clave,
         row.habilitado,
-        row.rol_id
+        row.rol_id,
+        row.rol_nombre
       );
     } catch (error) {
       throw new Error(`Error al obtener usuario por email: ${error.message}`);
@@ -142,31 +146,6 @@ export default class User {
 
     } catch (error) {
       throw new Error(`Error al cambiar estado del usuario: ${error.message}`);
-    }
-  }
-
-  // Método para verificar credenciales (login)
-  static async verificarCredenciales(email, clave) {
-    try {
-      const query = 'SELECT * FROM usuarios WHERE email = ? AND clave = ? AND habilitado = TRUE';
-      const [rows] = await connection.execute(query, [email, clave]);
-
-      if (rows.length === 0) return null; 
-
-      const row = rows[0];
-
-      return new User(
-        row.usuario_id,
-        row.nombre,
-        row.apellido,
-        row.email,
-        row.clave,
-        row.habilitado,
-        row.rol_id
-      );
-    } 
-    catch (error) {
-      throw new Error(`Error al verificar credenciales: ${error.message}`);
     }
   }
 

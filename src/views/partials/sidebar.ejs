@@ -17,10 +17,10 @@ const navItems = sidebar.navItems || [];
     
     <div class="user-info">
         <div class="user-avatar">
-            <i class="<%= user.icon %>"></i> 
+            <i class="fas fa-chalkboard-teacher"></i>
         </div>
-        <div class="user-name"><%= user.nombre %></div>
-        <div class="user-role"><%= user.rol_id %></div>
+        <div class="user-name"><%= usuario.nombre + ' ' + usuario.apellido %></div>
+        <div class="user-role"><%= usuario.rol_nombre %></div>
     </div>
     
     <div class="sidebar-nav">

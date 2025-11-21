@@ -5,8 +5,28 @@ import User from '../bd/models/User.js';
 
 dotenv.config();
 
-const soloAdmin = (req, res, next) => {
-  console.log('\nSolo Admin | Cookie:', req.headers.cookie)
+const soloAdmin = async (req, res, next) => {
+  console.log('\nSolo Admin')
+  const tokenDecodificado = await verificarToken(req, res)
+  
+  if(!tokenDecodificado) {
+    console.log('\n[ERROR] No se encuentra token. No autenticado')
+    return res.redirect('/')
+  }
+
+  const user = await User.obtenerPorId(tokenDecodificado.id)
+  if(!user) {
+    console.log('\n[ERROR] No se encuentra usuario. No autenticado')
+    return res.redirect('/')
+  }
+  console.log('\nUsuario:', user)
+
+  if (user.rol_id !== 1) {
+    console.log('\n[ERROR] No se encuentra usuario con rol de admin. No autenticado')
+    return res.redirect('/')
+  }
+  
+  req.user = user
   next()
 }
 
@@ -15,18 +35,18 @@ const soloDocente = async (req, res, next) => {
   const tokenDecodificado = await verificarToken(req, res)
   
   if(!tokenDecodificado) {
-    console.log('\nNo autenticado')
+    console.log('\n[ERROR] No se encuentra token. No autenticado')
     return res.redirect('/')
   }
 
   const user = await User.obtenerPorId(tokenDecodificado.id)
   if(!user) {
-    console.log('\nNo autenticado')
+    console.log('\n[ERROR] No autenticado')
     return res.redirect('/')
   }
 
   if (user.rol_id !== 2) {
-    console.log('\nNo autenticado')
+    console.log('\n[ERROR] No autenticado')
     return res.redirect('/')
   }
   
@@ -34,7 +54,7 @@ const soloDocente = async (req, res, next) => {
   next()
 }
 
-const soloAlumno = (req, res, next) => {
+const soloAlumno = async (req, res, next) => {
   console.log('\nSolo Alumno | Cookie:', req.headers.cookie)
   next()
 }
@@ -49,7 +69,7 @@ const verificarToken = async (req, res) => {
     const token = req.headers.cookie.split('; ').find(cookie => cookie.startsWith('token=')).slice(6); 
 
     if (!token) {
-      console.log('\nNo autenticado')
+      console.log('\n[ERROR] No autenticado')
       return res.redirect('/auth/docente')
     }
 
@@ -61,7 +81,7 @@ const verificarToken = async (req, res) => {
 
     return tokenDecodificado;
   } catch (error) {
-    console.log('\nError al verificar token:', error)
+    console.log('\n[ERROR] Error al verificar token:', error)
     return res.redirect('/auth/docente')
   }
 }

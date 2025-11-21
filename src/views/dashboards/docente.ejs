@@ -5,7 +5,7 @@
 <body>
     <div class="dashboard-container">
         <!-- Sidebar -->
-         <%- include('../partials/sidebar') %>
+         <%- include('../partials/sidebar', { usuario }) %>
         
         <!-- Main Content -->
         <div class="main-content">
@@ -29,8 +29,8 @@
                                     <i class="fas fa-chalkboard-teacher"></i>
                                 </div>
                                 <div class="logout-user-details">
-                                    <div class="logout-user-name">Laura Fernández</div>
-                                    <div class="logout-user-role">Docente</div>
+                                    <div class="logout-user-name"><%= usuario.nombre %></div>
+                                    <div class="logout-user-role"><%= usuario.rol_nombre %></div>
                                 </div>
                             </div>
                             <div class="logout-option" id="logout-btn">

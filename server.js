@@ -59,11 +59,36 @@ app.get('/auth/docente', autorizacion.soloPublico, (req, res) => {
 
 app.post('/api/auth/docente', auth.login);
 
+
+// Dashboard Admin
+app.get('/dashboard/admin', autorizacion.soloAdmin, (req, res) => {
+  const admin = req.user;
+
+  console.log('\nAdmin:', admin);
+
+  res.render('dashboards/admin', {
+    title: 'Dashboard Admin - Algorithmics',
+    usuario: admin,
+    sidebar: {
+      navItems: [
+        { href: '#', text: 'Dashboard', icon: 'fas fa-tachometer-alt', panel: 'dashboard', active: true },
+        { href: '#', text: 'Perfil', icon: 'fas fa-user-circle', panel: 'profile' },
+        { href: '#', text: 'Mis Cursos', icon: 'fas fa-book-open', panel: 'courses' },
+        { href: '#', text: 'Olimpiadas', icon: 'fas fa-trophy', panel: 'olympics' }
+      ]
+    }
+  });
+});
+
 // Dashboard Docente
 app.get('/dashboard/docente', autorizacion.soloDocente, (req, res) => {
+  const docente = req.user;
+
+  console.log('\nDocente:', docente);
+
   res.render('dashboards/docente', {
     title: 'Dashboard Docente - Algorithmics',
-    usuario: req.query.usuario || { nombre: 'Usuario Desconocido', rol_id: 'Invitado' },
+    usuario: docente,
     sidebar: {
       navItems: [
         { href: '#', text: 'Dashboard', icon: 'fas fa-tachometer-alt', panel: 'dashboard', active: true },

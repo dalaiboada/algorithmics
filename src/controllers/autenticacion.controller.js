@@ -75,14 +75,29 @@ const login = async (req, res) => {
       secure: true,
       sameSite: 'strict', */
     };
-
     res.cookie('token', token, cookieOptions);
 
+    const rol = user.rol_id;
+    console.log(rol);
+    let ruta = '';
+
+    switch (rol) {
+      case 1:
+        ruta = '/dashboard/admin';
+        break;
+      case 2:
+        ruta = '/dashboard/docente';
+        break;
+      case 3:
+        ruta = '/dashboard/alumno';
+        break;
+    }
+    
     res.send({
       status: 'ok',
       message: 'Inicio de sesión exitoso',
       token,
-      redirect: '/dashboard/docente' 
+      redirect: ruta 
     });
   } 
   catch (error) {
