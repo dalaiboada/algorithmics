@@ -74,7 +74,8 @@ app.get('/dashboard/admin', autorizacion.soloAdmin, (req, res) => {
         { href: '#', text: 'Dashboard', icon: 'fas fa-tachometer-alt', panel: 'dashboard', active: true },
         { href: '#', text: 'Perfil', icon: 'fas fa-user-circle', panel: 'profile' },
         { href: '#', text: 'Mis Cursos', icon: 'fas fa-book-open', panel: 'courses' },
-        { href: '#', text: 'Olimpiadas', icon: 'fas fa-trophy', panel: 'olympics' }
+        { href: '#', text: 'Olimpiadas', icon: 'fas fa-trophy', panel: 'olympics' },
+        { href: '#', text: 'Usuarios', icon: 'fas fa-trophy', panel: 'users' }
       ]
     }
   });
