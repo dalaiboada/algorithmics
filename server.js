@@ -10,6 +10,7 @@ import { dirname, join } from 'path'; // join es lo que usamos para unir rutas
 
 import { methods as auth } from './src/controllers/autenticacion.controller.js';
 import { methods as autorizacion } from './src/middlewares/autorizacion.js';
+import { methods as cursosController } from './src/controllers/cursos.controller.js';
 
 dotenv.config();
 
@@ -73,9 +74,9 @@ app.get('/dashboard/admin', autorizacion.soloAdmin, (req, res) => {
       navItems: [
         { href: '#', text: 'Dashboard', icon: 'fas fa-tachometer-alt', panel: 'dashboard', active: true },
         { href: '#', text: 'Perfil', icon: 'fas fa-user-circle', panel: 'profile' },
-        { href: '#', text: 'Mis Cursos', icon: 'fas fa-book-open', panel: 'courses' },
+        { href: '#', text: 'Cursos', icon: 'fas fa-book-open', panel: 'courses' },
         { href: '#', text: 'Olimpiadas', icon: 'fas fa-trophy', panel: 'olympics' },
-        { href: '#', text: 'Usuarios', icon: 'fas fa-trophy', panel: 'users' }
+        { href: '#', text: 'Usuarios', icon: 'fas fa-users', panel: 'users' }
       ]
     }
   });
@@ -100,6 +101,11 @@ app.get('/dashboard/docente', autorizacion.soloDocente, (req, res) => {
     }
   });
 });
+
+// Cursos
+app.get('/api/cursos', autorizacion.soloAdmin, cursosController.listarCursos);
+
+//app.post('/api/cursos', autorizacion.soloAdmin, cursosController.crearCurso);
 
 
 
