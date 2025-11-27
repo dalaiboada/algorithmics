@@ -156,6 +156,18 @@ export default class Curso {
     }
   }
 
+  // Obtener cantidad de alumnos inscritos en un curso
+  static async obtenerCantidadAlumnos(id) {
+    try {
+      const query = 'SELECT COUNT(*) as total FROM inscripciones i JOIN secciones s ON i.id_seccion = s.seccion_id WHERE s.curso_id = ?;';
+      const [rows] = await connection.execute(query, [id]);
+      return rows[0].total;
+
+    } catch (error) {
+      throw new Error(`Error al obtener la cantidad de alumnos: ${error.message}`);
+    }
+  }
+
   // Obtener estadísticas de cursos
   static async obtenerEstadisticas() {
     try {

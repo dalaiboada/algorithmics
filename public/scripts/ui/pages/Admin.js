@@ -28,7 +28,7 @@ const cargarCursos = async () => {
 };
 
 // Función para actualizar la tabla de cursos
-const actualizarTablaCursos = (cursos) => {
+const actualizarTablaCursos = cursos => {
   const tbody = document.querySelector('#courses table tbody');
   if (!tbody) return;
 
