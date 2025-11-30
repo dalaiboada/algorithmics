@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Algorithmics</title>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/algorithmics-logo.jpg">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/algorithmics-logo.jpg">
+    <meta name="theme-color" content="#a07bfd">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/pages/dashboards/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Preload de fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Meta etiquetas para SEO -->
+    <meta name="description" content="Panel de administración de Algorithmics">
+    <meta name="keywords" content="algorithmics, administración, dashboard">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="logo-text">Algorithmics</div>
+                </a>
+            </div>
+            
+            <div class="user-info" id="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <div class="user-name" id="user-name">Cargando...</div>
+                <div class="user-role" id="user-role">...</div>
+            </div>
+            
+            <div class="sidebar-nav">
+                <a href="#" class="nav-item active" data-panel="dashboard">
+                    <div class="nav-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <div class="nav-text">Dashboard</div>
+                </a>
+                <a href="#" class="nav-item" data-panel="profile">
+                    <div class="nav-icon">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="nav-text">Perfil</div>
+                </a>
+                <a href="#" class="nav-item" data-panel="courses">
+                    <div class="nav-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="nav-text">Cursos</div>
+                </a>
+                <a href="#" class="nav-item" data-panel="olympics">
+                    <div class="nav-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="nav-text">Olimpiadas</div>
+                </a>
+                <a href="#" class="nav-item" data-panel="users">
+                    <div class="nav-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="nav-text">Usuarios</div>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top-bar -->
+            <div class="top-bar">
+                <div class="page-title">Dashboard Administrador</div>
+                
+                <div class="user-actions">
+                    <div class="notification-icon">
+                        <i class="fas fa-bell"></i>
+                        <div class="notification-badge"></div>
+                    </div>
+                    <button class="user-avatar-logout" id="user-avatar-btn">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </button>
+
+                    <!-- Modal Cerrar Sesión -->
+                    <div class="logout-modal" id="logout-modal">
+                        <div class="logout-modal-content">
+                            <div class="logout-user-info">
+                                <div class="logout-user-avatar">
+                                    <i class="fas fa-chalkboard-teacher"></i>
+                                </div>
+                                <div class="logout-user-details">
+                                    <div class="logout-user-name" id="logout-user-name">Usuario</div>
+                                    <div class="logout-user-role" id="logout-user-role">Rol</div>
+                                </div>
+                            </div>
+                            <div class="logout-option" id="logout-btn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Cerrar Sesión</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-area">
+                <!-- Panel de Dashboard -->
+                <div class="panel active" id="dashboard">
+                    <!-- Estadisticas -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon courses">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value">4</div>
+                                <div class="stat-label">Cursos Activos</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon students">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value">186</div>
+                                <div class="stat-label">Estudiantes</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon olympics">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value">2</div>
+                                <div class="stat-label">Olimpiadas</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon rating">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value">4.8</div>
+                                <div class="stat-label">Rating Promedio</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contenido adicional del dashboard -->
+                    <div class="grid grid-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Próximas Actividades</div>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-tertiary">Las actividades se cargarán desde la API...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Calificaciones Pendientes</div>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-tertiary">Las calificaciones se cargarán desde la API...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Panel de Perfil -->
+                <div class="panel" id="profile">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Mi Perfil</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-2">
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-name">Nombre</label>
+                                    <input type="text" id="profile-name" class="form-input" value="">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-email">Correo Electrónico</label>
+                                    <input type="email" id="profile-email" class="form-input" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-primary">Guardar Cambios</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Panel de Cursos -->
+                <div class="panel" id="courses">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Gestión de Cursos</div>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-tertiary">Los cursos se cargarán desde la API...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Panel de Olimpiadas -->
+                <div class="panel" id="olympics">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Gestión de Olimpiadas</div>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-tertiary">Las olimpiadas se cargarán desde la API...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Panel de Usuarios -->
+                <div class="panel" id="users">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Gestión de Usuarios</div>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-tertiary">Los usuarios se cargarán desde la API...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Cargar información del usuario
+        async function loadUserInfo() {
+            try {
+                const response = await fetch('/api/auth/me');
+                const data = await response.json();
+
+                if (data.success && data.user) {
+                    const user = data.user;
+                    document.getElementById('user-name').textContent = `${user.nombre} ${user.apellido}`;
+                    document.getElementById('user-role').textContent = user.rol_nombre;
+                    document.getElementById('logout-user-name').textContent = user.nombre;
+                    document.getElementById('logout-user-role').textContent = user.rol_nombre;
+                    
+                    // Actualizar perfil
+                    document.getElementById('profile-name').value = `${user.nombre} ${user.apellido}`;
+                    document.getElementById('profile-email').value = user.email;
+                } else {
+                    // Si no está autenticado, redirigir al login
+                    window.location.href = '/login';
+                }
+            } catch (error) {
+                console.error('Error al cargar información del usuario:', error);
+                window.location.href = '/login';
+            }
+        }
+
+        // Funcionalidad para cambiar entre paneles
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserInfo();
+
+            const navItems = document.querySelectorAll('.nav-item');
+            const panels = document.querySelectorAll('.panel');
+
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const panelId = item.getAttribute('data-panel');
+
+                    // Remover clase active de todos los nav items y panels
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    panels.forEach(panel => panel.classList.remove('active'));
+
+                    // Agregar clase active al nav item y panel seleccionado
+                    item.classList.add('active');
+                    document.getElementById(panelId).classList.add('active');
+                });
+            });
+
+            // Modal de logout
+            const userAvatarBtn = document.getElementById('user-avatar-btn');
+            const logoutModal = document.getElementById('logout-modal');
+            const logoutBtn = document.getElementById('logout-btn');
+
+            userAvatarBtn.addEventListener('click', () => {
+                logoutModal.classList.toggle('show');
+            });
+
+            // Cerrar modal al hacer clic fuera
+            document.addEventListener('click', (e) => {
+                if (!userAvatarBtn.contains(e.target) && !logoutModal.contains(e.target)) {
+                    logoutModal.classList.remove('show');
+                }
+            });
+
+            // Logout
+            logoutBtn.addEventListener('click', () => {
+                // Eliminar cookie de token
+                document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                window.location.href = '/login';
+            });
+
+            // Notificaciones
+            const notificationIcon = document.querySelector('.notification-icon');
+            notificationIcon.addEventListener('click', function() {
+                alert('Tienes 3 notificaciones nuevas');
+            });
+        });
+    </script>
+</body>
+</html>

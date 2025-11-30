@@ -3,10 +3,9 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import ejs from 'ejs';
 
 import { fileURLToPath } from 'url';
-import { dirname, join } from 'path'; // join es lo que usamos para unir rutas
+import { dirname, join } from 'path';
 
 import { methods as auth } from './src/controllers/autenticacion.controller.js';
 import { methods as autorizacion } from './src/middlewares/autorizacion.js';
@@ -21,15 +20,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 app.listen(PORT, () => {
-  console.log('\nINICIANDO SERVIDOR');
-  console.log(`Servidor ejecutado en http://localhost:${PORT}`);
-  console.log(`Express está buscando vistas en: ${viewsPath}`);
+  console.log('\n=================================');
+  console.log('🚀 SERVIDOR INICIADO');
+  console.log('=================================');
+  console.log(`📡 API disponible en: http://localhost:${PORT}`);
+  console.log(`📁 Archivos estáticos: ${join(__dirname, 'public')}`);
+  console.log('=================================\n');
 });
-
-// ---- CONFIGURACIÓN DE EJS ----
-app.set('view engine', 'ejs');
-const viewsPath = join(__dirname, 'src', 'views');
-app.set('views', viewsPath);
 
 // ---- MIDDLEWARES ----
 app.use(cors({ origin: 'http://localhost:4000' }));
@@ -39,73 +36,39 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use(cookieParser());
 
-// ---- RUTAS ----
-app.get("/", autorizacion.soloPublico, (req, res) => {
+// ---- RUTAS PÚBLICAS ----
+app.get("/", (req, res) => {
   res.sendFile(join(__dirname, 'public/index.html'));
 });
 
+app.get('/login', (req, res) => {
+  res.sendFile(join(__dirname, 'public/login.html'));
+});
+
+// ---- API ENDPOINTS ----
+
 // Autenticación
-app.get('/auth/docente', autorizacion.soloPublico, (req, res) => {
-  const error = req.query.error || null;
-  const success = req.query.success || null;
-  const formData = req.query.formData ? JSON.parse(decodeURIComponent(req.query.formData)) : {};
-  
-  res.render('inicio_sesion-docente', {
-    title: 'Iniciar Sesión Docente - Algorithmics',
-    error,
-    success,
-    formData
+app.post('/api/auth/login', auth.login);
+
+// Información del usuario autenticado
+app.get('/api/auth/me', autorizacion.verificarToken, (req, res) => {
+  res.json({
+    success: true,
+    user: req.user
   });
 });
 
-app.post('/api/auth/docente', auth.login);
-
-
-// Dashboard Admin
+// Dashboard Admin (solo devuelve HTML)
 app.get('/dashboard/admin', autorizacion.soloAdmin, (req, res) => {
-  const admin = req.user;
-
-  console.log('\nAdmin:', admin);
-
-  res.render('dashboards/admin', {
-    title: 'Dashboard Admin - Algorithmics',
-    usuario: admin,
-    sidebar: {
-      navItems: [
-        { href: '#', text: 'Dashboard', icon: 'fas fa-tachometer-alt', panel: 'dashboard', active: true },
-        { href: '#', text: 'Perfil', icon: 'fas fa-user-circle', panel: 'profile' },
-        { href: '#', text: 'Cursos', icon: 'fas fa-book-open', panel: 'courses' },
-        { href: '#', text: 'Olimpiadas', icon: 'fas fa-trophy', panel: 'olympics' },
-        { href: '#', text: 'Usuarios', icon: 'fas fa-users', panel: 'users' }
-      ]
-    }
-  });
+  res.sendFile(join(__dirname, 'public/dashboard-admin.html'));
 });
 
-// Dashboard Docente
+// Dashboard Docente (solo devuelve HTML)
 app.get('/dashboard/docente', autorizacion.soloDocente, (req, res) => {
-  const docente = req.user;
-
-  console.log('\nDocente:', docente);
-
-  res.render('dashboards/docente', {
-    title: 'Dashboard Docente - Algorithmics',
-    usuario: docente,
-    sidebar: {
-      navItems: [
-        { href: '#', text: 'Dashboard', icon: 'fas fa-tachometer-alt', panel: 'dashboard', active: true },
-        { href: '#', text: 'Perfil', icon: 'fas fa-user-circle', panel: 'profile' },
-        { href: '#', text: 'Mis Cursos', icon: 'fas fa-book-open', panel: 'courses' },
-        { href: '#', text: 'Olimpiadas', icon: 'fas fa-trophy', panel: 'olympics' }
-      ]
-    }
-  });
+  res.sendFile(join(__dirname, 'public/dashboard-docente.html'));
 });
 
 // Cursos
 app.get('/api/cursos', autorizacion.soloAdmin, cursosController.listarCursos);
-
 //app.post('/api/cursos', autorizacion.soloAdmin, cursosController.crearCurso);
-
-
 
