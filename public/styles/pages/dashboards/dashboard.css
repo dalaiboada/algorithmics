@@ -1,5 +1,6 @@
 @import "./tarjetas-cursos.css";
 @import "./estadisticas.css";
+@import "../../modals/EditarUsuario.css";
 
 body { background-color: var(--bg-secondary); }
 

@@ -13,9 +13,9 @@
         <!-- Formulario -->
         <div class="login-form-container">
             <div class="login-header">
-                <div class="role-badge">ACCESO DOCENTES</div>
+                <div class="role-badge">ACCESO</div>
                 <h2>Iniciar Sesión</h2>
-                <p>Acceso exclusivo para el cuerpo docente de Algorithmics</p>
+                <!-- <p>Acceso exclusivo para el cuerpo docente de Algorithmics</p> -->
             </div>
 
             <% if (error) { %>
@@ -36,7 +36,7 @@
                 <div class="form-group">
                     <label class="form-label" for="email">Correo institucional</label>
                     <input type="email" id="email" name="email" class="form-input" 
-                           placeholder="docente@algorithmics.com" 
+                           placeholder="usuario@algorithmics.com" 
                            value="<%= formData.email || '' %>" required>
                 </div>
 
@@ -80,7 +80,7 @@
                 </div>
 
                 <div class="register-link">
-                    <p>¿Problemas con tu cuenta? <a href="#">Contactar al administrador</a></p>
+                    <p>¿Aún no tienes cuenta? <a href="/auth/registro">Regístrate</a></p>
                 </div>
             </form>
         </div>

@@ -17,15 +17,15 @@ export default class User {
   }
 
   // Método estático para crear un nuevo usuario
-  static async crear(nombre, apellido, email, clave, rol_id) {
+  static async crear(nombre, apellido, email, clave) {
     try {
       const query = `
-        INSERT INTO usuarios (nombre, apellido, email, clave, rol_id) 
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO usuarios (nombre, apellido, email, clave) 
+        VALUES (?, ?, ?, ?)
       `;
-      const [result] = await connection.execute(query, [nombre, apellido, email, clave, rol_id]);
+      const [result] = await connection.execute(query, [nombre, apellido, email, clave]);
       
-      return new User(result.insertId, nombre, apellido, email, clave, true, rol_id);
+      return new User(result.insertId, nombre, apellido, email, clave);
     } 
     catch (error) {
       throw new Error(`Error al crear usuario: ${error.message}`);
@@ -45,7 +45,7 @@ export default class User {
         row.clave,
         row.habilitado,
         row.rol_id,
-        row.rol_nombre
+        row.nombre_rol
       ));
     } catch (error) {
       throw new Error(`Error al obtener usuarios: ${error.message}`);
@@ -55,7 +55,13 @@ export default class User {
   // Método estático para obtener usuario por ID
   static async obtenerPorId(id) {
     try {
-      const query = 'SELECT * FROM vista_usuarios_con_rol WHERE usuario_id = ?';
+      // Usamos LEFT JOIN para obtener el usuario incluso si no tiene rol asignado
+      const query = `
+        SELECT u.*, r.nombre as nombre_rol 
+        FROM usuarios u 
+        LEFT JOIN roles r ON u.rol_id = r.rol_id 
+        WHERE u.usuario_id = ?
+      `;
       const [rows] = await connection.execute(query, [id]);
       if (rows.length === 0) {
         return null;
@@ -206,12 +212,18 @@ export default class User {
       throw new Error(`Error al obtener estadísticas: ${error.message}`);
     }
   }
+
+  // Método para eliminar usuarios con rol_id = null
+  static async eliminarInactivos() {
+    try {
+      const query = 'DELETE FROM usuarios WHERE rol_id IS NULL';
+      console.log("Ejecutando query:",query);
+      await connection.execute(query);
+      return true;
+    } catch (error) {
+      throw new Error(`Error al eliminar usuarios por rol: ${error.message}`);
+    }
+  }
 }
 
-/* const userId = 1;
-User.obtenerPorId(userId).then(user => {
-  console.log(user);
-}).catch(error => {
-  console.error(error);
-}); */
 

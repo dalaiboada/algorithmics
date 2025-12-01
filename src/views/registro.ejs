@@ -1,0 +1,112 @@
+    <%- include('partials/head', { title: title || 'Registro - Algorithmics' }) %>
+    <link rel="stylesheet" href="/styles/pages/auth/login.css">
+</head>
+
+<body>
+    <div class="login-container">
+        
+        <!-- Formulario -->
+        <div class="login-form-container">
+            <div class="login-header">
+                <div class="role-badge">REGISTRO</div>
+                <h2>Crear Cuenta</h2>
+                <p>Únete a la comunidad de Algorithmics</p>
+            </div>
+
+            <% if (error) { %>
+                <div class="message error">
+                    <%= error.replace(/\+/g, ' ') %>
+                </div>
+            <% } %>
+            
+            <% if (success) { %>
+                <div class="message success">
+                    <%= success.replace(/\+/g, ' ') %>
+                </div>
+            <% } %>
+            
+            <form class="login-form" action="/auth/registro" method="POST">
+                <!-- Nombre y Apellido en la misma fila -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="nombre">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" class="form-input" 
+                               placeholder="Tu nombre" 
+                               value="<%= formData.nombre || '' %>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="apellido">Apellido</label>
+                        <input type="text" id="apellido" name="apellido" class="form-input" 
+                               placeholder="Tu apellido" 
+                               value="<%= formData.apellido || '' %>" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="email">Correo electrónico</label>
+                    <input type="email" id="email" name="email" class="form-input" 
+                           placeholder="tu@email.com" 
+                           value="<%= formData.email || '' %>" required>
+                </div>
+
+                <!-- Contraseña y Confirmación en la misma fila -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="password">Contraseña</label>
+                        <input type="password" id="password" name="password" 
+                               class="form-input" placeholder="Mínimo 8 caracteres" 
+                               minlength="8" required>
+                        <small class="form-hint">Debe contener al menos 8 caracteres</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="password_confirm">Confirmar contraseña</label>
+                        <input type="password" id="password_confirm" name="password_confirm" 
+                               class="form-input" placeholder="Repite tu contraseña" 
+                               minlength="8" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-secondary btn-full">Crear Cuenta</button>
+
+                <div class="register-link">
+                    <p>¿Ya tienes cuenta? <a href="/auth/docente">Iniciar sesión</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        // Validación de contraseñas
+        const form = document.querySelector('.login-form');
+        const password = document.getElementById('password');
+        const passwordConfirm = document.getElementById('password_confirm');
+
+        form.addEventListener('submit', (e) => {
+            if (password.value !== passwordConfirm.value) {
+                e.preventDefault();
+                alert('Las contraseñas no coinciden');
+                passwordConfirm.focus();
+            }
+        });
+
+        // Mostrar indicador de fortaleza de contraseña
+        password.addEventListener('input', () => {
+            const value = password.value;
+            const hint = password.nextElementSibling;
+            
+            if (value.length < 8) {
+                hint.style.color = 'var(--error)';
+                hint.textContent = 'Debe contener al menos 8 caracteres';
+            } else if (value.length < 12) {
+                hint.style.color = 'var(--warning)';
+                hint.textContent = 'Contraseña débil - considera usar más caracteres';
+            } else {
+                hint.style.color = 'var(--success)';
+                hint.textContent = 'Contraseña fuerte';
+            }
+        });
+    </script>
+</body>
+</html>

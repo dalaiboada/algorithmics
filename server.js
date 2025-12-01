@@ -11,6 +11,7 @@ import { dirname, join } from 'path'; // join es lo que usamos para unir rutas
 import { methods as auth } from './src/controllers/autenticacion.controller.js';
 import { methods as autorizacion } from './src/middlewares/autorizacion.js';
 import { methods as cursosController } from './src/controllers/cursos.controller.js';
+import User from './src/bd/models/User.js';
 
 dotenv.config();
 
@@ -58,28 +59,53 @@ app.get('/auth/docente', autorizacion.soloPublico, (req, res) => {
   });
 });
 
+
 app.post('/api/auth/docente', auth.login);
 
+// Registro
+app.get('/auth/registro', autorizacion.soloPublico, (req, res) => {
+  const error = req.query.error || null;
+  const success = req.query.success || null;
+  const formData = req.query.formData ? JSON.parse(decodeURIComponent(req.query.formData)) : {};
+  
+  res.render('registro', {
+    title: 'Registro - Algorithmics',
+    error,
+    success,
+    formData
+  });
+});
+
+app.post('/auth/registro', auth.registrar);
 
 // Dashboard Admin
-app.get('/dashboard/admin', autorizacion.soloAdmin, (req, res) => {
+app.get('/dashboard/admin', autorizacion.soloAdmin, async (req, res) => {
   const admin = req.user;
 
   console.log('\nAdmin:', admin);
 
-  res.render('dashboards/admin', {
-    title: 'Dashboard Admin - Algorithmics',
-    usuario: admin,
-    sidebar: {
-      navItems: [
-        { href: '#', text: 'Dashboard', icon: 'fas fa-tachometer-alt', panel: 'dashboard', active: true },
-        { href: '#', text: 'Perfil', icon: 'fas fa-user-circle', panel: 'profile' },
-        { href: '#', text: 'Cursos', icon: 'fas fa-book-open', panel: 'courses' },
-        { href: '#', text: 'Olimpiadas', icon: 'fas fa-trophy', panel: 'olympics' },
-        { href: '#', text: 'Usuarios', icon: 'fas fa-users', panel: 'users' }
-      ]
-    }
-  });
+  try {
+    const usuarios = await User.obtenerTodos();
+    console.log('\nUsuarios:', usuarios);
+    
+    res.render('dashboards/admin', {
+      title: 'Dashboard Admin - Algorithmics',
+      usuario: admin,
+      usuarios: usuarios, // Pasamos la lista de usuarios
+      sidebar: {
+        navItems: [
+          { href: '#', text: 'Dashboard', icon: 'fas fa-tachometer-alt', panel: 'dashboard', active: true },
+          { href: '#', text: 'Perfil', icon: 'fas fa-user-circle', panel: 'profile' },
+          { href: '#', text: 'Cursos', icon: 'fas fa-book-open', panel: 'courses' },
+          { href: '#', text: 'Olimpiadas', icon: 'fas fa-trophy', panel: 'olympics' },
+          { href: '#', text: 'Usuarios', icon: 'fas fa-users', panel: 'users' }
+        ]
+      }
+    });
+  } catch (error) {
+    console.error('Error al obtener usuarios:', error);
+    res.status(500).send('Error interno del servidor');
+  }
 });
 
 // Dashboard Docente
@@ -99,6 +125,38 @@ app.get('/dashboard/docente', autorizacion.soloDocente, (req, res) => {
         { href: '#', text: 'Olimpiadas', icon: 'fas fa-trophy', panel: 'olympics' }
       ]
     }
+  });
+});
+
+// Dashboard Alumno
+app.get('/dashboard/alumno', autorizacion.soloAlumno, (req, res) => {
+  const alumno = req.user;
+
+  console.log('\nAlumno:', alumno);
+
+  res.render('dashboards/alumno', {
+    title: 'Dashboard Alumno - Algorithmics',
+    usuario: alumno,
+    sidebar: {
+      navItems: [
+        { href: '#', text: 'Dashboard', icon: 'fas fa-tachometer-alt', panel: 'dashboard', active: true },
+        { href: '#', text: 'Perfil', icon: 'fas fa-user-circle', panel: 'profile' },
+        { href: '#', text: 'Mis Cursos', icon: 'fas fa-book-open', panel: 'courses' },
+        { href: '#', text: 'Olimpiadas', icon: 'fas fa-trophy', panel: 'olympics' }
+      ]
+    }
+  });
+});
+
+// Dashboard Pendiente
+app.get('/dashboard/pendiente', autorizacion.soloPendiente, (req, res) => {
+  const usuario = req.user;
+  console.log("Dashboard Pendiente:",usuario);
+  console.log('\nUsuario Pendiente:', usuario);
+
+  res.render('dashboards/pendiente', {
+    title: 'Verificación Pendiente - Algorithmics',
+    usuario: usuario
   });
 });
 

@@ -15,42 +15,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>María González</td>
-                        <td>maria.gonzalez@email.com</td>
-                        <td>Estudiante</td>
-                        <td><span class="badge badge-success">Activo</span></td>
-                        <td>
-                            <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Editar</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Javier Pérez</td>
-                        <td>javier.perez@email.com</td>
-                        <td>Estudiante</td>
-                        <td><span class="badge badge-success">Activo</span></td>
-                        <td>
-                            <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Editar</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Ana López</td>
-                        <td>ana.lopez@email.com</td>
-                        <td>Instructor</td>
-                        <td><span class="badge badge-success">Activo</span></td>
-                        <td>
-                            <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Editar</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Carlos Mendoza</td>
-                        <td>carlos.mendoza@email.com</td>
-                        <td>Estudiante</td>
-                        <td><span class="badge badge-error">Inactivo</span></td>
-                        <td>
-                            <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Editar</button>
-                        </td>
-                    </tr>
+                    <% if (typeof usuarios !== 'undefined' && usuarios.length > 0) { %>
+                        <% usuarios.forEach(function(user) { %>
+                            <tr>
+                                <td><%= user.nombre %> <%= user.apellido %></td>
+                                <td><%= user.email %></td>
+                                <td><%= user.rol_nombre || 'Sin Rol' %></td>
+                                <td>
+                                    <% if (user.habilitado) { %>
+                                        <span class="badge badge-success">Activo</span>
+                                    <% } else { %>
+                                        <span class="badge badge-error">Inactivo</span>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;" onclick="editarUsuario('<%= user.id %>','<%= user.nombre %>','<%= user.apellido %>','<%= user.email %>','<%= user.rol_id %>','<%= user.habilitado %>')">Editar</button>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5" style="text-align: center;">No hay usuarios registrados</td>
+                        </tr>
+                    <% } %>
                 </tbody>
             </table>
         </div>
@@ -61,3 +48,145 @@
         </div>
     </div>
 </div>
+
+<!-- Modal para editar usuario -->
+<div class="modal" id="modalEditarUsuario" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrarModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <form id="formEditarUsuario" onsubmit="guardarCambios(event)">
+                <div class="modal-body">
+                    <input type="hidden" id="usuarioIdModal" name="id">
+                    
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-control" id="nombreModal" name="nombre" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="apellido">Apellido</label>
+                        <input type="text" class="form-control" id="apellidoModal" name="apellido" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" class="form-control" id="emailModal" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="rol">Rol</label>
+                        <select class="form-control" id="rolModal" name="rol_id" required>
+                            <option value="">Seleccionar rol</option>
+                            <option value="1">Admin</option>
+                            <option value="2">Personal Académico</option>
+                            <option value="3">Estudiante</option>
+                            <% if (typeof roles !== 'undefined' && roles.length > 0) { %>
+                                <% roles.forEach(function(rol) { %>
+                                    <option value="<%= rol.id %>"><%= rol.nombre %></option>
+                                <% }); %>
+                            <% } %>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="habilitado">Estado</label>
+                        <select class="form-control" id="habilitadoModal" name="habilitado" required>
+                            <option value="1">Activo</option>
+                            <option value="0">Inactivo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Nueva Contraseña (dejar en blanco para no cambiar)</label>
+                        <input type="password" class="form-control" id="passwordModal" name="password">
+                        <small class="form-text text-muted">Mínimo 6 caracteres</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirmar Nueva Contraseña</label>
+                        <input type="password" class="form-control" id="confirmPasswordModal" name="confirmPassword">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="cerrarModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    let nombre = "hola";
+    let apellido = "hola";
+    let email = "hola";
+    let rol_id = "hola";
+    let habilitado = "hola";
+    
+    function editarUsuario(user_id, user_nombre, user_apellido, user_email, user_rol_id, user_habilitado) {
+        //console.log('Editando usuario:', user);
+        console.log(user_email);
+        const emailInput = document.getElementById('emailModal');
+        console.log('Elemento email encontrado:', emailInput);
+
+        // Rellenar el formulario con los datos del usuario
+        document.getElementById('usuarioIdModal').value = user_id;
+        document.getElementById('nombreModal').value = user_nombre || '';
+        document.getElementById('apellidoModal').value = user_apellido || '';
+        document.getElementById('emailModal').value = user_email || 'lolgmailcom';
+        document.getElementById('rolModal').value = user_rol_id || '';
+        document.getElementById('habilitadoModal').value = user_habilitado;
+        document.getElementById('passwordModal').value = '';
+        document.getElementById('confirmPasswordModal').value = '';
+        
+        // Mostrar el modal
+        document.getElementById('modalEditarUsuario').style.display = 'block';
+        document.getElementById('modalEditarUsuario').classList.add('show');
+        document.body.style.overflow = 'hidden'; // Prevenir scroll
+    }
+
+    function cerrarModal() {
+        document.getElementById('modalEditarUsuario').style.display = 'none';
+        document.getElementById('modalEditarUsuario').classList.remove('show');
+        document.body.style.overflow = 'auto';
+        
+        // Restaurar título por defecto
+        document.querySelector('.modal-title').textContent = 'Editar Usuario';
+    }
+
+    function guardarCambios(event) {
+        event.preventDefault();
+        
+        const formData = new FormData(event.target);
+        const usuarioId = formData.get('id');
+        const nombre = formData.get('nombre');
+        const apellido = formData.get('apellido');
+        const email = formData.get('email');
+        const rolId = formData.get('rol_id');
+        const habilitado = formData.get('habilitado');
+        
+        console.log('Datos del formulario:', {
+            usuarioId,
+            nombre,
+            apellido,
+            email,
+            rolId,
+            habilitado
+        });
+        
+        // Aquí irá la lógica para guardar los cambios
+        alert('Funcionalidad de guardado en desarrollo');
+    }
+
+    function nuevoUsuario() {
+        console.log('Creando nuevo usuario');
+        // Aquí irá la lógica para abrir el modal de creación
+        alert('Funcionalidad de creación en desarrollo');
+    }
+</script>

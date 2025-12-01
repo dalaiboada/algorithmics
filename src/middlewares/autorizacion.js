@@ -55,7 +55,55 @@ const soloDocente = async (req, res, next) => {
 }
 
 const soloAlumno = async (req, res, next) => {
-  console.log('\nSolo Alumno | Cookie:', req.headers.cookie)
+  console.log('\nSolo Alumno')
+  const tokenDecodificado = await verificarToken(req, res)
+  
+  if(!tokenDecodificado) {
+    console.log('\n[ERROR] No se encuentra token. No autenticado')
+    return res.redirect('/')
+  }
+
+  const user = await User.obtenerPorId(tokenDecodificado.id)
+  if(!user) {
+    console.log('\n[ERROR] No autenticado')
+    return res.redirect('/')
+  }
+
+  if (user.rol_id !== 3) {
+    console.log('\n[ERROR] No autenticado')
+    return res.redirect('/')
+  }
+  
+  req.user = user
+  next()
+}
+
+const soloPendiente = async (req, res, next) => {
+  console.log('\nSolo Pendiente')
+  const tokenDecodificado = await verificarToken(req, res)
+  
+  if(!tokenDecodificado) {
+    console.log('\n[ERROR] No se encuentra token. No autenticado')
+    return res.redirect('/')
+  }
+
+  const user = await User.obtenerPorId(tokenDecodificado.id)
+  if(!user) {
+    console.log('\n[ERROR] No autenticado en middleware')
+    return res.redirect('/')
+  }
+
+  // Debug log
+  console.log('Verificando rol pendiente. rol_id:', user.rol_id);
+
+  // Usuario pendiente: sin rol asignado (rol_id es null o undefined o 0)
+  // Si tiene un rol asignado (valor truthy), redirigir
+  if (user.rol_id) {
+    console.log('\n[ERROR] Usuario ya tiene rol asignado:', user.rol_id)
+    return res.redirect('/')
+  }
+  
+  req.user = user
   next()
 }
 
@@ -90,6 +138,7 @@ export const methods = {
   soloAdmin,
   soloDocente,
   soloAlumno,
+  soloPendiente,
   soloPublico,
   verificarToken
 }
